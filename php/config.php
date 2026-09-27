@@ -1,4 +1,42 @@
 <?php
+    // Load a local .env for development. Real environment variables always win.
+    $envFile = dirname(__DIR__) . '/.env';
+
+    if (is_file($envFile) && is_readable($envFile)) {
+        foreach (file($envFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) as $line) {
+            $line = trim($line);
+
+            if ($line === '' || $line[0] === '#') {
+                continue;
+            }
+
+            if (strpos($line, 'export ') === 0) {
+                $line = substr($line, 7);
+            }
+
+            if (!preg_match('/^([A-Za-z_][A-Za-z0-9_]*)\\s*=\\s*(.*)$/', $line, $matches)) {
+                continue;
+            }
+
+            $name = $matches[1];
+            $value = trim($matches[2]);
+
+            if (strlen($value) >= 2) {
+                $first = $value[0];
+                $last = $value[strlen($value) - 1];
+
+                if (($first === '"' && $last === '"') || ($first === "'" && $last === "'")) {
+                    $value = substr($value, 1, -1);
+                }
+            }
+
+            // Do not overwrite variables already supplied by the server/shell.
+            if (getenv($name) === false) {
+                putenv($name . '=' . $value);
+            }
+        }
+    }
+
     $dbHost = getenv('ATDB_HOST') ?: 'localhost';
     $dbUser = getenv('ATDB_USER') ?: 'atdb';
     $dbName = getenv('ATDB_NAME') ?: 'atdb';
