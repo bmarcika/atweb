@@ -1,6 +1,21 @@
 <?php
-    $dbc = mysqli_connect('localhost', 'atdb', 'hjkZUI789', 'atdb');
-    //$dbc = mysqli_connect('localhost', 'root', '', 'atdb');
+    $dbHost = getenv('ATDB_HOST') ?: 'localhost';
+    $dbUser = getenv('ATDB_USER') ?: 'atdb';
+    $dbName = getenv('ATDB_NAME') ?: 'atdb';
+    $dbPassword = getenv('ATDB_PASSWORD');
+
+    if ($dbPassword === false) {
+        http_response_code(500);
+        exit('Database configuration is missing.');
+    }
+
+    $dbc = mysqli_connect($dbHost, $dbUser, $dbPassword, $dbName);
+    if (!$dbc) {
+        http_response_code(500);
+        exit('Database connection failed.');
+    }
+
+    mysqli_set_charset($dbc, 'utf8mb4');
 
     session_start();
 
