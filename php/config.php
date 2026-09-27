@@ -51,7 +51,9 @@
     //WHERE programs.Ready='yes'     
     // ORDER BY programs.StartDate";
 
-    $query_prog = "SELECT * FROM programs     
+    $query_prog = "SELECT * FROM programs
+    WHERE programs.Ready = 'yes'
+      AND (programs.EndDate IS NULL OR programs.EndDate >= CURDATE())
     ORDER BY programs.StartDate";
 
     $result = mysqli_query($dbc, $query_prog);
