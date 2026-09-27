@@ -25,6 +25,7 @@
       <a href="/index.php?page=house-story" class="  at-bar-item at-button at-padding-large-menu at-wide"><?php echo $lang['menu_the_story'] ?></a>
       <a href="/index.php?page=press" class=" at-bar-item at-button at-padding-large-menu at-wide"><?php echo $lang['menu_press'] ?></a>
       <a href="/index.php?page=accomodation" class="at-bar-item at-button at-padding-large-menu at-wide"><?php echo $lang['menu_accomodation'] ?></a-->
+      <a href="/index.php?page=stats" class="at-bar-item at-button at-padding-large-menu at-wide"><?php echo ($_SESSION['lang'] === 'eng' ? 'STATS' : 'ADATOK') ?></a>
       <a href="/index.php?page=faq" class="at-margin-bottom at-menu-margin-bottom  at-bar-item at-button at-padding-large-menu at-wide"><?php echo $lang['menu_faq'] ?></a>    
     </div>
   </div>
